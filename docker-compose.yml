@@ -1,0 +1,31 @@
+services:
+
+  backend:
+    image: backend:latest
+    ports:
+      - 8000:80
+    env_file:
+      - .env
+    restart: unless-stopped
+    command: /start-reload.sh
+    volumes:
+      - ./backend/app:/code/app
+      - ./pyproject.toml:/code/pyproject.toml
+      - ./poetry.lock:/code/poetry.lock
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    depends_on:
+      - mongodb
+
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb:/data/db
+    ports: 
+      - 25015:27017
+
+
+volumes:
+  mongodb:

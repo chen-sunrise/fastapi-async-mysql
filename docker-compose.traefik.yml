@@ -1,0 +1,88 @@
+services:
+  proxy:
+    image: traefik:latest
+    ports:
+      - "80:80"
+      - "8080:8080"
+    command:
+      - --accesslog
+      - --log
+      - --entryPoints.web.transport.respondingTimeouts.writeTimeout=60
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --api
+      - --api.insecure=true
+      - --providers.docker=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    
+  
+  backend1:
+    image: backend:latest
+    env_file:
+      - .env
+    restart: always
+    command: /start-reload.sh
+    volumes:
+      - ./backend/app:/code/app
+      - ./pyproject.toml:/code/pyproject.toml
+      - ./poetry.lock:/code/poetry.lock
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    depends_on:
+      - mongodb
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=Host(`localhost`)
+      - traefik.http.services.backend.loadbalancer.server.port=80
+      - traefik.http.routers.backend.entrypoints=web
+      - traefik.http.routers.backend.middlewares=testheader@docker
+      - traefik.http.middlewares.testheader.headers.customResponseHeaders.Server=traefik
+  
+  backend2:
+    image: backend:latest
+    env_file:
+      - .env
+    restart: always
+    command: /start-reload.sh
+    volumes:
+      - ./backend/app:/code/app
+      - ./pyproject.toml:/code/pyproject.toml
+      - ./poetry.lock:/code/poetry.lock
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    depends_on:
+      - mongodb
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.backend.loadbalancer.server.port=80
+  
+  backend3:
+    image: backend:latest
+    env_file:
+      - .env
+    restart: always
+    command: /start-reload.sh
+    volumes:
+      - ./backend/app:/code/app
+      - ./pyproject.toml:/code/pyproject.toml
+      - ./poetry.lock:/code/poetry.lock
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    depends_on:
+      - mongodb
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.backend.loadbalancer.server.port=80
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb:/data/db
+
+volumes:
+  mongodb:
