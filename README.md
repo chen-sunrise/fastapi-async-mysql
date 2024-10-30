@@ -1,3 +1,7 @@
+<p align="left">
+    <a href="README_EN.md">English</a> ｜ 中文
+</p>
+
 # FastAPI Backend Project
 
 这是一个基于 **FastAPI** 框架的后端项目，数据库使用`MongoDB`，采用 `Docker` 和 `docker-compose` 进行管理，并通过 `Traefik` 作为反向代理进行负载均衡。本项目结构包含应用的 API、数据模型、CRUD 操作、依赖配置、用户认证和安全设置等模块，适用于开发和生产环境。
@@ -53,16 +57,16 @@
 ./run.traefik.sh
 ```
 
-配置说明
+### 配置说明
 
-Docker 环境变量
+### Docker 环境变量
 
 配置位于 .env 文件中，包含以下参数：
 
-    •	DB_URL：数据库连接 URL
-    •	SECRET_KEY：JWT 加密密钥
-    •	ALGORITHM：JWT 加密算法
-    •	ACCESS_TOKEN_EXPIRE_MINUTES：访问令牌过期时间（分钟）
+- **DB_URL**：数据库连接 URL
+- **SECRET_KEY：JWT** 加密密钥
+- **ALGORITHM**：JWT 加密算法
+- **ACCESS_TOKEN_EXPIRE_MINUTES**：访问令牌过期时间（分钟）
 
 Traefik 反向代理
 
