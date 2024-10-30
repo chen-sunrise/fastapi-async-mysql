@@ -1,73 +1,78 @@
 <p align="left">
-    <a href="README_EN.md">English</a> ｜ 中文
+    English | <a href="README_zh.md">中文</a>
 </p>
 
 # FastAPI Backend Project
 
-这是一个基于 **FastAPI** 框架的后端项目，数据库使用`MongoDB`，采用 `Docker` 和 `docker-compose` 进行管理，并通过 `Traefik` 作为反向代理进行负载均衡。本项目结构包含应用的 API、数据模型、CRUD 操作、依赖配置、用户认证和安全设置等模块，适用于开发和生产环境。
+This is a FastAPI-based backend project using MongoDB as the database, managed by Docker and docker-compose, with Traefik acting as a reverse proxy and load balancer. The project structure includes API, data models, CRUD operations, dependency management, user authentication, and security settings, designed for both development and production environments.
 
-## 目录结构
+## Project Structure
 ```
 .
-├── README.md                   # 项目说明
-├── backend                     # 后端应用代码和配置
-│   ├── Dockerfile              # 后端 Docker 镜像构建文件
-│   ├── app                     # FastAPI 应用目录
-│   │   ├── api                 # API 路由和依赖配置
-│   │   │   ├── endpoints       # API 路由定义
-│   │   ├── core                # 核心配置和安全设置
-│   │   ├── crud                # 数据库 CRUD 操作
-│   │   ├── models              # 数据库模型定义
-│   │   ├── schemas             # 数据传输模型定义
-│   │   ├── utils               # 实用工具模块
-│   │   └── main.py             # FastAPI 应用主入口
-│   ├── gunicorn_conf.py        # Gunicorn 配置文件
-│   └── scripts                 # 启动脚本
-├── docker-compose.yml          # Docker Compose 配置文件
-├── docker-compose.traefik.yml  # Docker Compose 配置文件（Traefik）
-├── poetry.lock                 # Poetry 锁文件
-├── pyproject.toml              # Poetry 项目配置文件
-├── run.sh                      # 应用启动脚本
-├── run.traefik.sh              # 使用 Traefik 启动的脚本
-└── tests                       # 测试代码目录
+├── README.md                   # Project description
+├── backend                     # Backend app code and configurations
+│   ├── Dockerfile              # Dockerfile for backend image
+│   ├── app                     # FastAPI application directory
+│   │   ├── api                 # API routes and dependencies
+│   │   │   ├── endpoints       # API endpoint definitions
+│   │   ├── core                # Core configurations and security settings
+│   │   ├── crud                # CRUD operations for the database
+│   │   ├── models              # Database models
+│   │   ├── schemas             # Data transfer schemas
+│   │   ├── utils               # Utility modules
+│   │   └── main.py             # Main entry for FastAPI application
+│   ├── gunicorn_conf.py        # Gunicorn configuration
+│   └── scripts                 # Startup scripts
+├── docker-compose.yml          # Docker Compose configuration
+├── docker-compose.traefik.yml  # Docker Compose config with Traefik
+├── poetry.lock                 # Poetry lock file
+├── pyproject.toml              # Poetry project config file
+├── run.sh                      # Application startup script
+├── run.traefik.sh              # Traefik-enabled startup script
+└── tests                       # Test code directory
 ```
 
-## 功能
+## Features
 
-- **API 端点**：提供用户注册、登录、获取信息等接口。
-- **用户认证**：支持 JWT 令牌的认证与授权。
-- **CRUD 操作**：封装了数据操作的基本功能。
-- **反向代理**：利用 Traefik 进行服务的动态路由和负载均衡。
-- **配置管理**：Gunicorn 用于生产环境的应用部署。
-- **测试支持**：包含测试文件，便于扩展自动化测试。
+- **API Endpoints**: Provides user registration, login, and profile retrieval.
+- **User Authentication**: JWT-based authentication and authorization.
+- **CRUD Operations**: Encapsulated data manipulation functions.
+- **Reverse Proxy**: Traefik-enabled dynamic routing and load balancing.
+- **Configuration Management**: Gunicorn setup for production deployments.
+- **Testing Support**: Ready for extended automated testing.
 
-## 部署与运行
+## Deployment and Running
 
-### 本地运行（无 Traefik）
+### Local Run (without Traefik)
 
 ```bash
-# 启动 Docker 服务
+# Start Docker service
 ./run.sh
 ```
 
-### 使用 Traefik 部署
+### Deployment with Traefik
 
 ```bash
-# 启动 Docker 服务（Traefik 支持）
+# Start Docker service with Traefik support
 ./run.traefik.sh
 ```
 
-### 配置说明
+### Configuration Guide
 
-### Docker 环境变量
+### Docker Environment Variables
 
-配置位于 .env 文件中，包含以下参数：
+Configured in the .env file, including:
 
-- **DB_URL**：数据库连接 URL
-- **SECRET_KEY：JWT** 加密密钥
-- **ALGORITHM**：JWT 加密算法
-- **ACCESS_TOKEN_EXPIRE_MINUTES**：访问令牌过期时间（分钟）
+- **DB_URL**: Database connection URL
+- **SECRET_KEY**: Secret key for JWT encryption
+- **ALGORITHM**: JWT encryption algorithm
+- **ACCESS_TOKEN_EXPIRE_MINUTES**: Expiration time for access tokens (minutes)
 
-Traefik 反向代理
+### Traefik Reverse Proxy
 
-使用 docker-compose.traefik.yml 配置文件，通过 Traefik 管理服务路由。将应用部署在 docker network 中，方便其他容器访问。
+Use the docker-compose.traefik.yml configuration file for Traefik, managing dynamic routing within the Docker network to ensure container accessibility across services.
+
+
+
+
+
